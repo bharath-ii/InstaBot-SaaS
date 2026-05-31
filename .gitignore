@@ -10,9 +10,8 @@ __pycache__/
 *.pyd
 
 # Sensitive Data / Service Account Keys
-firebase-adminsdk.json
-instabotsaas-firebase-adminsdk-fbsvc-*.json
-*.json
+*adminsdk*.json
+*firebase-adminsdk*.json
 
 # OS files
 .DS_Store
