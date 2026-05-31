@@ -79,7 +79,7 @@ def instagram_oauth_callback():
     uid  = request.args.get('state')   # The Firebase UID we passed as state
 
     if not code or not uid:
-        return redirect(f"{FRONTEND_URL}/settings?error=oauth_failed")
+        return redirect(f"{FRONTEND_URL}/app/settings?error=oauth_failed")
 
     # 1. Exchange code → short-lived access token
     token_url = "https://graph.facebook.com/v21.0/oauth/access_token"
@@ -93,7 +93,7 @@ def instagram_oauth_callback():
     short_token = token_data.get("access_token")
 
     if not short_token:
-        return redirect(f"{FRONTEND_URL}/settings?error=token_exchange_failed")
+        return redirect(f"{FRONTEND_URL}/app/settings?error=token_exchange_failed")
 
     # 2. Upgrade to long-lived token (valid for 60 days)
     long_token_resp = http_requests.get("https://graph.facebook.com/v21.0/oauth/access_token", params={
@@ -133,7 +133,7 @@ def instagram_oauth_callback():
             break
 
     if not instagram_user_id:
-        return redirect(f"{FRONTEND_URL}/settings?error=no_instagram_account")
+        return redirect(f"{FRONTEND_URL}/app/settings?error=no_instagram_account")
 
     # 5. Save to Firestore under the user's uid
     db = get_db()
@@ -144,7 +144,7 @@ def instagram_oauth_callback():
             "connected":         True,
         }, merge=True)
 
-    return redirect(f"{FRONTEND_URL}/settings?success=connected")
+    return redirect(f"{FRONTEND_URL}/app/settings?success=connected")
 
 
 # ─── API Routes ───────────────────────────────────────────────────────────────
