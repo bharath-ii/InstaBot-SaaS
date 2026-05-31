@@ -1,0 +1,19 @@
+# Virtual Environment
+venv/
+.venv/
+env/
+
+# Python Cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Sensitive Data / Service Account Keys
+firebase-adminsdk.json
+instabotsaas-firebase-adminsdk-fbsvc-*.json
+*.json
+
+# OS files
+.DS_Store
+Thumbs.db
