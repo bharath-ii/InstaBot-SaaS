@@ -112,7 +112,9 @@ def instagram_oauth_callback():
     pages_resp = http_requests.get("https://graph.facebook.com/v21.0/me/accounts", params={
         "access_token": long_token
     })
-    pages = pages_resp.json().get("data", [])
+    pages_json = pages_resp.json()
+    print(f"[DEBUG OAuth] me/accounts response: {pages_json}")
+    pages = pages_json.get("data", [])
 
     # 4. For each page, find the connected Instagram Business Account
     instagram_user_id = None
@@ -126,6 +128,7 @@ def instagram_oauth_callback():
             params={"fields": "instagram_business_account", "access_token": page_token}
         )
         ig_data = ig_resp.json()
+        print(f"[DEBUG OAuth] Page {page_id} ({page.get('name')}) response: {ig_data}")
         iba = ig_data.get("instagram_business_account")
         if iba:
             instagram_user_id = iba.get("id")
@@ -133,6 +136,7 @@ def instagram_oauth_callback():
             break
 
     if not instagram_user_id:
+        print(f"[DEBUG OAuth] No Instagram Business Account found for Firebase UID: {uid}")
         return redirect(f"{FRONTEND_URL}/app/settings?error=no_instagram_account")
 
     # 5. Save to Firestore under the user's uid
