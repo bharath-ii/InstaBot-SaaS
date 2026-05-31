@@ -34,6 +34,16 @@ def verify_token(req):
         return None
 
 
+# ─── Base Routes ──────────────────────────────────────────────────────────────
+
+@app.route('/')
+def index():
+    return jsonify({
+        "status": "active",
+        "service": "InstaBot SaaS Backend API",
+        "meta_app_id": APP_ID
+    })
+
 # ─── OAuth Routes ─────────────────────────────────────────────────────────────
 
 @app.route('/auth/instagram')
